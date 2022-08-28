@@ -1,9 +1,6 @@
 package online.meinkraft.customvillagertrades.trade;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
@@ -56,34 +53,13 @@ public class VanillaTrade implements ConfigurationSerializable {
     public VanillaTrade(Map<String, Object> map) {
 
         villagerLevel = (int) map.get("villagerLevel");
-        
-        Object serializedResult = map.get("result");
-
-        if(!(serializedResult instanceof Map)) {
-            throw new IllegalArgumentException("result is not a map");
-        }
-
-        @SuppressWarnings("unchecked") 
-        ItemStack result = ItemStack.deserialize(
-            (Map<String, Object>) serializedResult
-        );
-        this.result = result;
+        this.result = ItemStackSerializer.fromString((String) map.get("result"));
 
         List<?> serializedIngredients = (List<?>) map.get("ingredients");
         ingredients = new ArrayList<>();
 
         for(Object serializedIngredient : serializedIngredients) {
-
-            if(!(serializedIngredient instanceof Map)) {
-                throw new IllegalArgumentException("ingredient is not a map");
-            }
-
-            @SuppressWarnings("unchecked") 
-            ItemStack ingredient = ItemStack.deserialize(
-                (Map<String, Object>) serializedIngredient
-            );
-
-            ingredients.add(ingredient);
+            ingredients.add(ItemStackSerializer.fromString((String) serializedIngredient));
 
         }
 
@@ -123,13 +99,13 @@ public class VanillaTrade implements ConfigurationSerializable {
 
         Map<String, Object> map = new HashMap<>();
 
-        List<Map<String, Object>> ingredients = new ArrayList<>();
-        this.ingredients.stream().forEach(ingredient -> {
-            ingredients.add(ingredient.serialize());
+        List<String> ingredients = new ArrayList<>();
+        this.ingredients.forEach(ingredient -> {
+            ingredients.add(Base64.getEncoder().encodeToString(ingredient.serializeAsBytes()));
         });
 
         map.put("villagerLevel", villagerLevel);
-        map.put("result", result.serialize());
+        map.put("result", ItemStackSerializer.toString(result));
         map.put("ingredients", ingredients);
         map.put("maxUses", maxUses);
         map.put("experienceReward", experienceReward);

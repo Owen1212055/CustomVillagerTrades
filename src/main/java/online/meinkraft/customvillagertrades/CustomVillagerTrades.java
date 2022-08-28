@@ -1,5 +1,6 @@
 package online.meinkraft.customvillagertrades;
 
+import online.meinkraft.customvillagertrades.command.*;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,12 +8,6 @@ import org.bukkit.plugin.java.JavaPluginLoader;
 
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
-import online.meinkraft.customvillagertrades.command.DisableCommand;
-import online.meinkraft.customvillagertrades.command.EditorCommand;
-import online.meinkraft.customvillagertrades.command.EnableCommand;
-import online.meinkraft.customvillagertrades.command.ReloadCommand;
-import online.meinkraft.customvillagertrades.command.RerollCommand;
-import online.meinkraft.customvillagertrades.command.RestoreCommand;
 import online.meinkraft.customvillagertrades.exception.EconomyNotAvailableException;
 import online.meinkraft.customvillagertrades.exception.VaultNotAvailableException;
 import online.meinkraft.customvillagertrades.listener.InventoryClickListener;
@@ -241,6 +236,7 @@ public class CustomVillagerTrades extends JavaPlugin implements PluginConfig {
         this.getCommand("disable").setExecutor(new DisableCommand(this));
         this.getCommand("reload").setExecutor(new ReloadCommand(this));
         this.getCommand("editor").setExecutor(new EditorCommand(this));
+        this.getCommand("dumpitemnbt").setExecutor(new DumpItemCommand(this));
 
         // ensure plugin doesn't get enabled more than once
         this.loaded = true;

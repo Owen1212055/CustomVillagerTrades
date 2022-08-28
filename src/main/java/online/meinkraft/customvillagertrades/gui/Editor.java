@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import online.meinkraft.customvillagertrades.trade.ItemStackSerializer;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Villager;
@@ -274,9 +275,9 @@ public class Editor extends GUI {
                     if(entry.isItemsModified()) {
                         String editorKey = tradeKey + ".editor";
                         if(!config.contains(editorKey)) config.createSection(editorKey);
-                        config.set(editorKey + ".firstIngredient", newTrade.getFirstIngredient());
-                        config.set(editorKey + ".secondIngredient", newTrade.getSecondIngredient());
-                        config.set(editorKey + ".result", newTrade.getResult());
+                        config.set(editorKey + ".firstIngredient", ItemStackSerializer.toString(newTrade.getFirstIngredient()));
+                        config.set(editorKey + ".secondIngredient", ItemStackSerializer.toString(newTrade.getSecondIngredient()));
+                        config.set(editorKey + ".result", ItemStackSerializer.toString(newTrade.getResult()));
                     }
 
                 }

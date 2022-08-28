@@ -1,18 +1,19 @@
 package online.meinkraft.customvillagertrades.trade;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Logger;
-
+import net.md_5.bungee.api.ChatColor;
+import online.meinkraft.customvillagertrades.CustomVillagerTrades;
+import online.meinkraft.customvillagertrades.exception.EconomyNotEnabledException;
+import online.meinkraft.customvillagertrades.exception.IngredientsNotFoundException;
+import online.meinkraft.customvillagertrades.exception.ResultNotFoundException;
+import online.meinkraft.customvillagertrades.util.AttributeModifierWrapper;
+import online.meinkraft.customvillagertrades.util.ItemEnchantment;
+import online.meinkraft.customvillagertrades.util.MoneyItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Biome;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -22,14 +23,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.md_5.bungee.api.ChatColor;
-import online.meinkraft.customvillagertrades.CustomVillagerTrades;
-import online.meinkraft.customvillagertrades.exception.EconomyNotEnabledException;
-import online.meinkraft.customvillagertrades.exception.IngredientsNotFoundException;
-import online.meinkraft.customvillagertrades.exception.ResultNotFoundException;
-import online.meinkraft.customvillagertrades.util.AttributeModifierWrapper;
-import online.meinkraft.customvillagertrades.util.ItemEnchantment;
-import online.meinkraft.customvillagertrades.util.MoneyItem;
+import java.util.*;
+import java.util.logging.Logger;
 
 public final class CustomTradeLoader {
 
@@ -90,9 +85,9 @@ public final class CustomTradeLoader {
 
                 // get items from editor field
                 if(editor != null) {
-                    result = editor.getItemStack("result");
-                    firstIngredient = editor.getItemStack("firstIngredient");
-                    secondIngredient = editor.getItemStack("secondIngredient");
+                    result = ItemStackSerializer.getItemStack(editor, "result");
+                    firstIngredient = ItemStackSerializer.getItemStack(editor, "firstIngredient");
+                    secondIngredient = ItemStackSerializer.getItemStack(editor, "secondIngredient");
                 }
                 else {
                     MemorySection resultSection = (MemorySection) tradeSection.get("result");

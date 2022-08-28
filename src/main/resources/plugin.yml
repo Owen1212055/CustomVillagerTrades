@@ -38,9 +38,16 @@ commands:
     usage: /editor
     permission: customvillagertrades.command.editor
     aliases: cvteditor
+  dumpitemnbt:
+    description: Dumps the nbt of the current item
+    usage: /dumpitemnbt
+    permission: customvillagertrades.command.dumpitemnbt
 permissions:
   customvillagertrades.command.enable:
     description: Allows use of command, /customvillagertrades:enable
+    default: op
+  customvillagertrades.command.dumpitemnbt:
+    description: Allows use of command /dumpitemnbt
     default: op
   customvillagertrades.command.disable:
     description: Allows use of command, /customvillagertrades:disable
